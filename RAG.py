@@ -7,29 +7,25 @@ from sentence_transformers import SentenceTransformer
 model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
 
 client = OpenAI(
-    # defaults to os.environ.get("OPENAI_API_KEY)
-    api_key="sk-ka6ZtLvEZg6eXChRLCxzaSxFYsYqTd4E1Zid6WJV6jpUw3fR",
+    api_key="your_api_key",
     base_url="https://api.ephone.chat/v1"
 )
 
 
 
-# 加载TriviaQA数据集
 def load_triviaqa(filepath):
     dataset = load_dataset("parquet", data_files=filepath)
     texts = []
-    for idx, example in enumerate(dataset["train"]):  # 遍历训练集中的所有样本
+    for idx, example in enumerate(dataset["train"]):  
         context = example.get("context", "").strip()
         texts.append(context)
     return texts
 
-# 初始化向量化器和向量
 def initialize_retriever(texts):
     vectorizer = TfidfVectorizer(stop_words='english')
     vectors = vectorizer.fit_transform(texts)
     return vectorizer, vectors
 
-# 检索相关文档
 def retrieve(query, vectorizer, vectors, texts, top_k=5):
     query_vec = vectorizer.transform([query])
     similarities = cosine_similarity(query_vec, vectors).flatten()
@@ -37,7 +33,6 @@ def retrieve(query, vectorizer, vectors, texts, top_k=5):
     retrieved_texts = [texts[i] for i in top_indices]
     return " ".join(retrieved_texts)
 
-# 使用OpenAI生成答案
 def generate_answer(question, context):
     prompt = f"根据以下上下文回答问题：\n\n上下文: {context}\n\n问题: {question}\n答案:"
     response = client.chat.completions.create(
@@ -50,12 +45,10 @@ def generate_answer(question, context):
     return answer
 
 def main():
-    # 数据集路径
     dataset_path = r'C:\Users\admin\Desktop\RAG-TQA\TriviaQA\modified_100_percent-00000-of-00001-6ecbad160e20a7c4.parquet'
     texts = load_triviaqa(dataset_path)
 
     
-    # 初始化检索器
     vectorizer, vectors = initialize_retriever(texts)
     
     while True:
