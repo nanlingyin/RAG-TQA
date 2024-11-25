@@ -82,3 +82,12 @@
 3. **配置 API 密钥**：设置 `OPENAI_API_KEY` 环境变量。
 4. **准备数据集**：确保 TriviaQA 数据集文件位于指定路径。
 5. **运行程序**：执行 RAG.py并按提示操作。
+
+
+## 联系方式
+
+如果有需求或者疑问，欢迎联系！
+
+- **Email**: 20241008398@stu.shzu.edu.cn
+- **GitHub**: [nanlingyin](https://github.com/nanlingyin)
+- **Personal website**: [https://lynngnan.xyz](https://www.lynngnan.xyz/)
