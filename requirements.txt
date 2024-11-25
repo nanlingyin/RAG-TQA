@@ -1,0 +1,5 @@
+plaintext
+datasets
+scikit-learn
+openai
+sentence-transformers
